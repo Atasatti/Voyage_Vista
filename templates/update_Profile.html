@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update profile</title>
+    <link rel="stylesheet" href="../static/style.css">
+
+    <style>
+        body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        text-transform: capitalize;
+        background-color: rgb(22, 22, 40);
+        display: flex;
+        justify-content: center;
+        align-items: flex-start; 
+        min-height: 100vh;
+        overflow: hidden;
+        position: relative;
+        }
+        .heading {
+        font-family: 'Pacifico', cursive;
+        font-size: 3rem;
+        color: #173244;
+        margin-bottom: 1.5rem;
+        margin-top: 15rem;
+        }
+    
+        .heading span {
+            display: inline-block;
+            animation: bounce 0.5s ease infinite alternate;
+        }
+
+        .navbar a{
+            justify-content: right;
+            padding-left: 95rem;
+        }
+    
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+        .container {
+        margin: 0 auto; 
+        max-width: 800px; 
+        padding: 0 20px; 
+        }
+        .form-control {
+        width: 100%; 
+        max-width: 400px; 
+        height: 30px;
+        }
+    </style>
+
+</head>
+<body>
+
+
+            <!-- header section-->
+            <header>        
+                <a href="#" class="logo"><span>Voyage Vistas</span></a>
+        
+                <nav class="navbar">
+                    <a href="/#home">Home</a>
+                </nav>
+                
+                <div class="icons">
+                    <!--  <i class="fas fa-search" id="search-btn"></i> -->
+                    <a href="/users/update" class="fas fa-user" style="font-size: 3em; color: aliceblue;"></a>
+        
+                    <i></i>
+                    <!-- <i href="/users/update" class="fas fa-user" id="login-btn"></i>  -->
+        
+                    <a href="/logout" class="fas fa-sign-out-alt" style="font-size: 3em; color: aliceblue;"></a>
+        
+                </div>
+        
+            </header>
+    
+    {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    {% if display_table %}
+
+    <div class="container mt-5">
+        <h1 class="heading">
+            <span>u</span>
+            <span>p</span>
+            <span>d</span>
+            <span>a</span>
+            <span>t</span>
+            <span>e</span>
+            <span class="space"></span>
+            <span>p</span>
+            <span>r</span>
+            <span>o</span>
+            <span>f</span>
+            <span>i</span>
+            <span>l</span>
+            <span>e</span>
+
+        </h1> 
+
+        <form id="updateUserForm">
+            <div class="form-group">
+
+                <label style="color: antiquewhite; font-size: medium;" for="username"><b>User name:</b></label>
+                <input type="text" class="form-control" iD="username" name="username" placeholder="  Enter Name" required pattern="^[a-zA-Z0-9_.-]{3,15}$" required>
+                <br>
+
+            </div>
+            <br>
+            <br>
+
+            <center>
+                <button type="submit" class="btn">Update</button>
+            </center>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const updateUserForm = document.getElementById('updateUserForm');
+                    updateUserForm.addEventListener('submit', async function (event) {
+                        event.preventDefault(); // Prevent default form submission
+        
+                        const formData = new FormData(updateUserForm); // Gather form data
+        
+                        try {
+                            const response = await fetch('/users/update', {
+                                method: 'POST',
+                                body: formData
+                            });
+                            
+                            if (response.ok) {
+                                console.log('User updated successfully');
+                                // You can redirect or perform any other actions here
+                                const data = await response.text();
+                                console.log(data)
+                                document.getElementById('content').innerHTML = data;
+                                
+                                // window.location.href = '/';
+                                 
+                            } else {
+                                console.error('Failed to update user:', response.statusText);
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                        }
+                    });
+                });
+            </script>
+
+        </form>
+    </div>
+    {% endif %}
+
+</body>
+</html>

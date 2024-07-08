@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update User</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    
+    <style>
+        :root {
+            --orange: #FFA500;
+        }
+
+        * {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: rgb(22, 22, 40);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+        }
+
+        header .logo {
+            font-size: 2rem; 
+            font-weight: bolder;
+            color: #fff;
+            text-transform: uppercase;
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        header .logo span {
+            color: var(--orange);
+        }
+
+        header .navbar a {
+            color: #fff;
+            font-size: 1.5rem; 
+            margin: 0 0.5rem;
+        }
+
+        header .navbar a:hover {
+            color: var(--orange);
+        }
+
+        header .navbar a:first-child {
+            margin-right: auto;
+            margin-left: 62rem; 
+        }
+
+        header .icons a {
+            font-size: 2rem;
+            color: aliceblue;
+            margin-right: 1.5rem;
+            
+        }
+
+        header .icons a:hover {
+            color: var(--orange);
+        }
+
+        .heading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2.5rem 0;
+            font-size: 3rem;
+            color: #173244;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .heading span {
+            background: rgba(255, 165, 0, 0.2);
+            color: var(--orange);
+            border-radius: 0.5rem;
+            padding: 2rem 1rem;
+            animation: bounce 0.5s ease infinite alternate;
+            margin: 0.2rem;
+        }
+
+        .heading .space {
+            background: none;
+            padding: 0;
+            margin: 0 1rem;
+        }
+
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding-top: 150px; /* Adjust to ensure space for the header */
+            padding-bottom: 50px;
+            overflow-y: auto;
+        }
+
+        .form-group-container {
+            width: 90%;
+            max-width: 600px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2196F3;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        label {
+            font-size: 1.7rem;
+            margin-bottom: 5px;
+        }
+
+        .btn {
+            display: block;
+            background: var(--orange);
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1.7rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            margin: 20px auto 0 auto; 
+        }
+
+        .btn:hover {
+            background: rgba(255, 165, 0, 0.8);
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header section -->
+    <header>
+        <a href="#" class="logo"><span>Voyage Vistas</span></a>
+        <nav class="navbar">
+            <a href="/#home">Home</a>
+        </nav>
+    </header>
+
+    {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    {% if display_table %}
+    <div class="form-container">
+        <h1 class="heading">
+            <span>u</span>
+            <span>p</span>
+            <span>d</span>
+            <span>a</span>
+            <span>t</span>
+            <span>e</span>
+            <span class="space"></span>
+            <span>u</span>
+            <span>s</span>
+            <span>e</span>
+            <span>r</span>
+        </h1>
+        <div class="form-group-container">
+            <form method="post" action="/users/packages/update/{{package._id}}">
+                <div class="form-group">
+                    <label for="destination"><b>Destination</b></label>
+                    <input type="text" class="form-control" id="destination" name="destination" placeholder="Enter destination" value="{{ package.destination }}" required pattern="^[a-zA-Z\s]{1,100}$"  required>
+                </div>
+                <div class="form-group">
+                    <label for="number_of_guests"><b>Number Of Guests</b></label>
+                    <input type="text" class="form-control" id="number_of_guests" name="number_of_guests" placeholder="Enter Number of Guests" value="{{ package.number_of_guests }}" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label for="arrival_date"><b>Arrival Date</b></label>
+                    <input type="date" class="form-control" id="arrival_date" name="arrival_date" value="{{ package.arrival_date }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="leaving_date"><b>Leaving Date</b></label>
+                    <input type="date" class="form-control" id="leaving_date" name="leaving_date" value="{{ package.leaving_date }}" required>
+                </div>
+                <button type="submit" class="btn">Update</button>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+   
+</body>
+</html>

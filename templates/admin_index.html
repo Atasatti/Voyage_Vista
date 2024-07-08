@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        :root {
+            --orange: #ffa500;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-transform: capitalize;
+            background-color: rgb(22, 22, 40);
+            color: #fff;
+            min-height: 100vh;
+            overflow: auto;
+            position: relative;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: #333;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 5%;
+            height: 3.5rem;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bolder;
+            text-transform: uppercase;
+            color: var(--orange);
+            text-decoration: none;
+        }
+
+        header .navbar a {
+            font-size: 1.4rem;
+            margin: 0 0.5rem;
+            color: #fff;
+            padding-right: 2rem; 
+        }
+
+        .heading {
+            text-align: center;
+            padding: 2rem;
+            padding-top: 10rem;
+        }
+
+        .heading span {
+            font-size: 2.5rem;
+            background: rgba(255, 165, 0, 0.2);
+            color: var(--orange);
+            border-radius: 0.5rem;
+            padding: 2rem 1rem;
+        }
+
+        .heading span.space {
+            background: none;
+        }
+
+        .heading2 {
+            text-align: left;
+            padding: 2rem;
+            padding-top: 2rem;
+        }
+
+        .heading2 span {
+            font-size: 1.5rem;
+            background: rgba(255, 165, 0, 0.2);
+            color: var(--orange);
+            border-radius: 0.5rem;
+            padding: 2rem 1rem;
+        }
+
+        .heading2 span.space {
+            background: none;
+        }
+
+        .list-group {
+            display: flex; 
+            justify-content: center; 
+        }
+
+        .list-group-item {
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            background-color: var(--orange);
+            color: rgb(22, 22, 40); 
+            border: none;
+            border-radius: 5px;
+            margin: 0 10px; 
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            padding: 20px; 
+            text-align: center; /* Center align the text */
+            font-size: large;
+        }
+
+        .list-group-item:hover {
+            background-color: #0056b3;
+        }
+
+
+        .btn {
+            margin-top: 20px; 
+        }
+
+        .btn a {
+            background-color: var(--orange);
+            color: rgb(22, 22, 40);             
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 1.5rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn a:hover {
+            background-color: rgba(255, 165, 0, 0.8);
+        }
+    </style>
+  
+</head>
+<body>
+       <!-- header section-->
+       <header>
+
+        <a href="#" class="logo"><span>Voyage Vistas</span></a>
+
+        <nav class="navbar">
+            <a href="/#home">Home</a>
+            <a href="#" onclick="logout_fetch_api(event)" class="fas fa-sign-out-alt" style="font-size: 2.5em; color: aliceblue;"></a>
+            <script>
+                async function logout_fetch_api() {
+                    try {
+                        const response = await fetch('/logout', {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        });
+        
+                        if (response.ok) {
+                            window.location.href = '/logout';
+                        } else {
+                            console.error('Failed to load user profile page', response.statusText);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                }
+            </script>
+            
+        </nav>
+        
+
+        </div>
+
+    </header>
+    
+
+    <div class="dashboard-container">
+        <div class="row">
+            <div class="col">
+                <h1 class="heading">
+                    <span>a</span>
+                    <span>d</span>
+                    <span>m</span>
+                    <span>i</span>
+                    <span>n</span>
+                    <span class="space"></span>
+                    <span>d</span>
+                    <span>a</span>
+                    <span>s</span>
+                    <span>h</span>
+                    <span>b</span>
+                    <span>o</span>
+                    <span>a</span>
+                    <span>r</span>
+                    <span>d</span>
+                </h1>
+
+                <br>
+
+
+                <h1 class="heading2">
+                    <span>m</span>
+                    <span>a</span>
+                    <span>m</span>
+                    <span>n</span>
+                    <span>g</span>
+                    <span>e</span>
+                    <span class="space"></span>
+                    <span>a</span>
+                    <span>d</span>
+                    <span>m</span>
+                    <span>i</span>
+                    <span>n</span>
+                 
+                </h1>
+
+                <div class="list-group">
+                    <a href="#" onclick="admin_register_fetch_api()" class="list-group-item list-group-item-action">Add Admin</a>
+
+                    <script>
+                        async function admin_register_fetch_api() {
+                            try {
+                                const response = await fetch('/admins/register', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                
+                                if (response.ok) {
+                                    window.location.href = '/admins/register';
+                                } else {
+                                    console.error('Failed to load user profile page', response.statusText);
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                            }
+                        }
+                    </script>
+
+
+                    <a href="#" onclick="admin_View_Update_Delete_fetch_api(event) " class="list-group-item list-group-item-action">View/Update/Delete  Admins</a>
+                    <script>
+                        async function admin_View_Update_Delete_fetch_api(){
+                            try {
+                                const response = await fetch('/admins/show-admins', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                
+                                if (response.ok) {
+                                    window.location.href = '/admins/show-admins';
+                                } else {
+                                    console.error('Failed to load user profile page', response.statusText);
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                            }
+                        }
+                    </script>                
+                    
+                </div>
+
+
+                <h1 class="heading2">
+                    <span>m</span>
+                    <span>a</span>
+                    <span>m</span>
+                    <span>n</span>
+                    <span>g</span>
+                    <span>e</span>
+                    <span class="space"></span>
+                    <span>p</span>
+                    <span>a</span>
+                    <span>c</span>
+                    <span>k</span>
+                    <span>a</span>
+                    <span>g</span>
+                    <span>e</span>
+
+                </h1>
+
+                <div class="list-group">
+                    <a href="#" onclick="admin_add_Package_api(event)" class="list-group-item list-group-item-action">Add Packages</a>
+
+                    <script>
+                        async function admin_add_Package_api(){
+                            try {
+                                const response = await fetch('/admins/add-Package', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                
+                                if (response.ok) {
+                                    
+                                    // const data = await response.text();
+                                    // console.log(data)
+                                    // document.getElementById('content').innerHTML = data;
+
+                                    // document.getElementById('content').innerHTML = data;
+                                    
+                                    window.location.href = '/admins/add-Package';
+
+                                } else {
+                                    console.error('Failed to load user profile page', response.statusText);
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                            }
+                        }
+                        console.log(data)
+
+                    </script>   
+
+                    <a href="#" onclick="admin_View_Update_Delete_package_fetch_api(event)" class="list-group-item list-group-item-action">View/Update/Delete Packages</a>
+                    <script>
+                        async function admin_View_Update_Delete_package_fetch_api(){
+                            try {
+                                const response = await fetch('/admins/show-packages', {
+                                    method: 'GET',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    }
+                                });
+                
+                                if (response.ok) {
+                                    window.location.href = '/admins/show-packages';
+                                } else {
+                                    console.error('Failed to load user profile page', response.statusText);
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                            }
+                        }
+                    </script> 
+
+                </div>
+
+                
+
+            </div>
+        </div>
+        <br>
+    </div>    
+
+</body>
+</html>

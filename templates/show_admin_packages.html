@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Packages</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+:root {
+    --orange: #ffa500;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    background-color: rgb(22, 22, 40);
+    color: #fff;
+    min-height: 100vh;
+    overflow: auto;
+    position: relative;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5%;
+    height: 3.5rem;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-decoration: none;
+}
+
+header .navbar a {
+    font-size: 1.4rem;
+    margin: 0 0.5rem;
+    color: #fff;
+    padding-right: 2rem; 
+}
+
+.heading {
+    text-align: center;
+    padding: 2rem;
+    padding-top: 10rem;
+}
+
+.heading span {
+    font-size: 2.5rem;
+    background: rgba(255, 165, 0, 0.2);
+    color: var(--orange);
+    border-radius: 0.5rem;
+    padding: 2rem 1rem;
+}
+
+.heading span.space {
+    background: none;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 10rem;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+    color: #fff;
+    margin-top: 2rem;
+    font-size: 1.2rem;
+    margin: 0 auto; 
+
+}
+
+.table th,
+.table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #273746;
+}
+
+.table tbody tr:hover {
+    background-color: #34495E;
+}
+
+.btn {
+    background: var(--orange);
+    color: #fff;
+    padding: 0.5rem 1rem; 
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem; 
+    border-radius: 0.5rem;
+    text-align: center;
+    margin: 0 0.5rem; 
+    display: inline-block; 
+}
+
+.btn:hover {
+    background: rgba(255, 165, 0, 0.8);
+}
+
+.btn-group {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+}
+    </style>
+</head>
+<body>
+
+    <!-- header section-->
+    <header>
+        <a href="#" class="logo"><span>Voyage Vistas</span></a>
+        <nav class="navbar">
+            <a href="/#home">Home</a>  
+            <a href="/logout" class="fas fa-sign-out-alt" style="font-size: 2.5em; color: aliceblue;"></a>
+
+        </nav>
+    </header>
+
+    <h1 class="heading">
+        <span>a</span>
+        <span>d</span>
+        <span>m</span>
+        <span>i</span>
+        <span>n</span>
+        <span class="space"></span>
+        <span>p</span>
+        <span>a</span>
+        <span>c</span>
+        <span>k</span>
+        <span>a</span>
+        <span>g</span>
+        <span>e</span>
+        <span>s</span>
+    </h1>
+
+    {% if error_message %}
+        <div class="alert" role="alert">
+            {{ error_message }}
+        </div>
+    {% endif %}
+
+    {% if success_message %}
+        <div class="alert" role="alert">
+            {{ success_message }}
+        </div>
+    {% endif %}
+
+    {% if display_table %}
+        <div class="container">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Destination</th>
+                        <th scope="col">Number of guests</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Stars</th>
+                        <th scope="col">Discounted Price</th>
+                        <th scope="col">Original Price</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for package in packages %}
+                    <tr>
+                        <th scope="row">{{ loop.index }}</th>
+                        <td>{{ package.image_path }}</td>
+                        <td>{{ package.destination_name }}</td>
+                        <td>{{ package.guest_allowed }}</td>
+                        <td>{{ package.description }}</td>
+                        <td>{{ package.stars }}</td>
+                        <td>{{ package.discounted_price }}</td>
+                        <td>{{ package.original_price }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <!-- <a href="/admins/add-Package" class="btn">Add</a> -->
+                                <a href="/admins/update-Package/{{package._id}}" class="btn">Update</a>
+                                <form action="/admins/delete-Package/{{package._id}}" method="post" style="display: inline;">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <button type="submit" class="btn">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+</body>
+</html>

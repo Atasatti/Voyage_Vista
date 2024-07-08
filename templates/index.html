@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project</title>
+    
+    <link rel="stylesheet" href="../static/style.css">
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+
+    <!-- header section-->
+    <header>
+        <div id="menu-bar" class="fas fa-bars"></div>
+        <a href="#" class="logo"><span>Voyage Vistas</span></a>
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#book">Book</a>
+            <a href="#packages">Packages</a>
+            <a href="#review">Reviews</a>
+            <a href="#give_review">Give Review</a>
+            <a href="/users/view-packages">View Packages</a>
+        </nav>
+        
+        <script>
+            async function get_user_profile_page() {
+                try {
+                    const response = await fetch('/users/update', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+    
+                    if (response.ok) {
+                        window.location.href = '/users/update';
+                    } else {
+                        console.error('Failed to load user profile page', response.statusText);
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            }
+        </script>
+        
+        <div class="icons">
+            <a href="#" onclick="get_user_profile_page(event)" class="fas fa-user" style="font-size: 3em; color: aliceblue;"></a>
+            &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            <a href="/logout" class="fas fa-sign-out-alt" style="font-size: 3em; color: aliceblue;"></a>
+        </div>
+    </header>
+    
+    <!-- home section-->
+    <section class="home" id="home">
+        <div class="content">
+            <h3>Adventure is worthwhile</h3>
+            <p>Discover new places with us, adventure awaits</p>
+            <a href="#" class="btn">Discover more</a>
+        </div>
+        <div class="video-container">
+            <video src="../static/vedio 1.mp4" id="vedio-slider" loop autoplay muted></video>
+        </div>
+    </section>
+
+    <!-- Booking section-->
+    <section class="book" id="book">
+        <h1 class="heading">
+            <span>b</span>
+            <span>o</span>
+            <span>o</span>
+            <span>k</span>
+            <span class="space"></span>
+            <span>n</span>
+            <span>o</span>
+            <span>w</span>
+        </h1>
+        <div class="row">
+            <div class="image">
+                <img src="../static/img1.png" alt="">
+            </div>
+            <form action="/users/package-choosen" method="post" onsubmit="return validateDates()">
+                <div class="inputBox">
+                    <label for="destination"><h3>where to</h3></label>
+                    <input type="text" class="form-control" id="destination" name="destination" placeholder="place name.." required>
+                </div> 
+                <div class="inputBox">
+                    <label for="number_of_guests"><h3>how many</h3></label>
+                    <input type="number" class="form-control" id="number_of_guests" name="number_of_guests" placeholder="Number of guests" min="1" required>
+                </div>
+                <div class="inputBox">
+                    <label for="arrival_date"><h3>Arrivals</h3></label>
+                    <input type="date" class="form-control" id="arrival_date" name="arrival_date" required>
+                </div>
+                <div class="inputBox">
+                    <label for="leaving_date"><h3>Leaving</h3></label>
+                    <input type="date" class="form-control" id="leaving_date" name="leaving_date" required>
+                </div>
+                <div class="inputBox">
+                    <label for="cost"><h3>Cost</h3></label>
+                    <input type="number" class="form-control" id="cost" name="cost" readonly required>
+                </div>
+                <input type="submit" class="btn" value="Book Now">
+            </form>
+        </div>
+    </section>
+
+    <script>
+        function validateDates() {
+            var arrivalDate = document.getElementById('arrival_date').value;
+            var leavingDate = document.getElementById('leaving_date').value;
+    
+            if (new Date(arrivalDate) >= new Date(leavingDate)) {
+                alert('Arrival date must be before leaving date.');
+                return false; // Prevent form submission
+            }
+            return true; // Allow form submission
+        }
+    </script>
+
+    
+    <!-- Packages section-->
+    <section class="packages" id="packages">
+        <h1 class="heading">
+            <span>p</span>
+            <span>a</span>
+            <span>c</span>
+            <span>k</span>
+            <span>a</span>
+            <span>g</span>
+            <span>e</span>
+            <span>s</span>
+        </h1>
+        {% if display_table %}
+        <div class="box-container">
+            {% for admin_package in admin_packages %}
+            <div class="box">
+                <img src="../static/{{admin_package.image_path}}" alt="">
+                <div class="content">
+                    <h3> <i class="fas fa-map-marker-alt"></i>{{admin_package.destination_name}} </h3>
+                    <h3>Guests: {{admin_package.guest_allowed}}  </h3>
+                    <p>{{admin_package.description}}</p>
+                    <div class="stars">
+                        {% for star in range(admin_package.stars) %}
+                        <i class="fas fa-star"></i>
+                        {% endfor %}
+                        {% for star in range(5 - admin_package.stars) %}
+                        <i class="far fa-star"></i>
+                        {% endfor %}
+                    </div>
+                    <div class="price"> ${{admin_package.discounted_price}} <span>${{admin_package.original_price}}</span></div>
+                    <a href="#book" class="btn book-now" 
+
+                        data-package="{{admin_package.destination_name}}"
+                        data-price="{{admin_package.discounted_price}}" 
+                        data-guests_allowed="{{admin_package.guest_allowed}}"
+                        data-original_price="{{admin_package.original_price}}"
+                        
+                    >book now</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const bookNowButtons = document.querySelectorAll('.book-now');
+
+            bookNowButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const destination = this.dataset.package;
+                    const discountedPrice = parseFloat(this.dataset.price);
+                    const guestsAllowed = parseInt(this.dataset.guests_allowed);
+                    const originalPrice = parseFloat(this.dataset.original_price);
+
+                    document.getElementById('destination').value = destination;
+                    document.getElementById('number_of_guests').value = guestsAllowed;
+                    document.getElementById('cost').value = discountedPrice;
+
+                    const guestInput = document.getElementById('number_of_guests');
+                    guestInput.addEventListener('input', function() {
+                        const numberOfGuests = parseInt(this.value);
+                        if (numberOfGuests === guestsAllowed) {
+                            document.getElementById('cost').value = discountedPrice;
+                        } else {
+                            document.getElementById('cost').value = numberOfGuests * originalPrice;
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+
+    <!-- Review section-->
+    <section class="review" id="review">
+
+        <h1 class="heading">
+            <span>r</span>
+            <span>e</span>
+            <span>v</span>
+            <span>i</span>
+            <span>e</span>
+            <span>w</span>
+        </h1>
+
+        {% if display_table %}
+        <div class="swiper-container review-slider">
+
+            <div class="swiper-wrapper">
+
+                    {% for review in users_reviews %}
+                    <div class="swiper-slider">
+
+                        <div class="box">
+                            <img src="../static/{{review.profile_image}}" alt="">
+                            <h3>{{review.name}}</h3>
+                            <p>{{review.comment}}</p>
+
+                            <div class="stars">
+                            {% for star in range(review.stars) %}
+                                <i class="fas fa-star"></i>
+                            {% endfor %}
+
+                            {% for star in range(5 - review.stars) %}
+                                
+                                <i class="far fa-star"></i>
+                                
+                            {% endfor %}
+
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+
+    </section>
+
+    <!-- give review section-->
+<section class="give_review" id="give_review">
+
+    <h1 class="heading">
+        <span>G</span>
+        <span>I</span>
+        <span>V</span>
+        <span>E</span>
+        &emsp;&emsp;
+        <span>R</span>
+        <span>E</span>
+        <span>V</span>
+        <span>I</span>
+        <span>E</span>
+        <span>W</span>
+    </h1>
+
+    <div class="row">
+        <div class="image">
+            <img src="../static/img2.avif" alt="">
+        </div>
+
+        <form action="/users/add-review" method="post">
+            <div class="form-group">
+                <label for="review_of_customer">Review</label>
+                <textarea class="form-control" id="review_of_customer" name="review_of_customer" placeholder="Review...." required></textarea>
+            </div>
+            <p id="charCount">0/250 characters</p>
+            <script>
+                document.getElementById('review_of_customer').addEventListener('input', function (event) {
+                const textarea = event.target;
+                const maxLength = 250;
+                const currentLength = textarea.value.length;
+                
+                // Update character count display
+                document.getElementById('charCount').innerText = `${currentLength}/${maxLength} characters`;
+                
+                // Check if the current length exceeds the maximum length
+                if (currentLength > maxLength) {
+                    // Trim the value to the maximum length
+                    textarea.value = textarea.value.slice(0, maxLength);
+                    // Update character count display again after trimming
+                    document.getElementById('charCount').innerText = `${maxLength}/${maxLength} characters`;
+                }
+            });
+
+            </script>            
+
+            <div class="form-group">
+                <label for="stars">Stars</label>
+                <input type="number" class="form-control" id="stars" name="stars" min="0" max="5" placeholder="Stars....">
+            </div>
+        
+            <input type="submit" class="btn" value="Send Review">
+        </form>
+    </div>
+
+</section>
+    <!-- Footer section-->
+
+    <section class="footer">
+
+        <div class="box-container">
+
+            <div class="box">
+                <h3>About us</h3>
+                <p>Voyage Vista, where we turn your travel dreams into reality. Our passion lies in crafting unforgettable journeys that combine luxury, adventure, and cultural immersion. With years of industry expertise, our team ensures every detail of your trip is meticulously planned and seamlessly executed.</p>
+            </div>
+
+            <div class="box">
+                <h3>Branch Locations</h3>
+                <a href="#">Pakistan</a>
+                <a href="#">USA</a>
+                <a href="#">France</a>
+                <a href="#">Japan</a>
+            </div>
+            
+            <div class="box">
+                <h3>Quick links</h3>
+                <a href="#">home</a>
+                <a href="#">book</a>
+                <a href="#">packages</a>
+                <a href="#">reviews</a>
+                <a href="#">contact</a>
+            </div>
+
+            <div class="box">
+                <h3>Follow us</h3>
+                <a href="#">Facebook</a>
+                <a href="#">Intagram</a>
+                <a href="#">Twitter</a>
+                <a href="#">Linkedin</a>
+            </div>
+        </div>
+        <h3 class="credit">created by <span> Aleena & Ata <span>| all rights</span></span></h3>
+    </section>
+
+
+   
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+</body>
+</html>

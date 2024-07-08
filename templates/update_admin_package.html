@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update admin package</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        :root {
+    --orange: #ffa500;
+}
+
+body {
+    font-family: 'Nunito', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    text-transform: capitalize;
+    background-color: rgb(22, 22, 40);
+    color: #fff;
+    min-height: 100vh;
+    overflow: auto; /* Allow scrolling */
+    position: relative;
+    margin-top: 10rem;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 9%; 
+    height: 50px; 
+}
+
+header .logo {
+    font-size: 1.5rem; 
+    font-weight: bolder;
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-left: 20px;
+    
+}
+
+header .logo span {
+    color: var(--orange);
+}
+
+header .navbar a {
+    color: #fff;
+    font-size: 1.8rem;
+    margin: 0 0.8rem;
+}
+
+header .navbar a:hover {
+    color: var(--orange);
+}
+
+header .icons a {
+    font-size: 1rem;
+    color: aliceblue;
+    margin-right: 2rem;
+}
+
+header .navbar a:first-child {
+            margin-right: auto;
+            margin-left: 50rem; 
+        }
+
+header .icons a:hover {
+    color: var(--orange);
+}
+
+.heading {
+    font-size: 2rem;
+    color: #173244;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.heading span {
+    display: inline-block;
+    background: rgba(255, 165, 0, 0.2);
+    color: var(--orange);
+    border-radius: 0.5rem;
+    padding: 2rem 1rem;
+    margin: 0.2rem 0;
+    animation: bounce 0.5s ease infinite alternate;
+}
+
+.heading span.space {
+    background: none;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-10px);
+    }
+}
+
+.container {
+    width: 90%;
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: medium;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    font-size: medium;
+}
+
+label {
+    font-size: 1.9rem;
+    color: #fff;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    width: 100%;
+    height: 5rem;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 1.2rem;
+    margin-top: 0.5rem;
+}
+
+textarea.form-control {
+    resize: vertical;
+}
+
+.btn {
+    display: block;
+    background: var(--orange);
+    color: #fff;
+    padding: 1rem 2rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1.7rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    margin: 20px auto 0 auto; 
+}
+
+.btn:hover {
+    background: rgba(255, 165, 0, 0.8);
+}
+
+    </style>
+
+
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo"><span>Voyage Vistas</span></a>
+        <nav class="navbar">
+            <a href="/#home">Home</a>
+        </nav>
+
+    </header>
+
+    <h1 class="heading">
+        <span>u</span>
+        <span>p</span>
+        <span>d</span>
+        <span>a</span>
+        <span>t</span>
+        <span>e</span>
+        <span class="space"></span>
+        <span>p</span>
+        <span>a</span>
+        <span>c</span>
+        <span>k</span>
+        <span>a</span>
+        <span>g</span>
+        <span>e</span>
+        <span>s</span>
+    </h1>
+    
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">
+        {{ error_message }}
+    </div>
+    {% endif %}
+    {% if display_table %}
+    <div class="container ">
+        <form method="post" action="/admins/update-Package/{{ package._id }}">
+            <div class="form-group">
+                <label for="image_path"><b>Image Path:</b></label>
+                <input type="file" class="form-control" id="image_path" name="image_path" value="{{ package.image_path }}" required>
+            </div>
+            <div class="form-group">
+                <label for="destination_name"><b>Destination:</b></label>
+                <input type="text" class="form-control" id="destination_name" name="destination_name" value="{{ package.destination_name }}" required pattern="^[a-zA-Z\s]{1,20}$" required>
+            </div>
+            <div class="form-group">
+                <label for="guest_allowed"><b>Guests allowed:</b></label>
+                <input type="number" class="form-control" id="guest_allowed" name="guest_allowed" value="{{ package.guest_allowed }}" required>
+            </div>
+            <div class="form-group">
+                <label for="description"><b>Description:</b></label>
+                <textarea class="form-control" id="description" name="description" required pattern="^[a-zA-Z\s]{1,100}$" required>{{ package.description }} </textarea>
+            </div>
+            <div class="form-group">
+                <label for="discounted_price"><b>Discounted Price:</b></label>
+                <input type="number" class="form-control" id="discounted_price" name="discounted_price" value="{{ package.discounted_price }}" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="original_price"><b>Original Price:</b></label>
+                <input type="number" class="form-control" id="original_price" name="original_price" value="{{ package.original_price }}" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="stars"><b>Stars:</b></label>
+                <input type="number" class="form-control" id="stars" name="stars" value="{{ package.stars }}" max="5" min="0" required>
+            </div>
+            <center>
+                <button type="submit" class="btn">Update</button>
+            </center>
+        </form>
+    </div>
+    {% endif %}
+
+</body>
+</html>

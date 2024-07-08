@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <style>
+        
+:root {
+    --orange: #ffa500;
+}
+        body {
+            font-family: 'Nunito', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-transform: capitalize;
+            background-color: rgb(22, 22, 40);
+            color: #fff;
+            min-height: 100vh;
+            overflow: auto;
+            position: relative;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-top: 8rem;
+            padding: 2rem;
+            border-radius: 10px;
+        }
+
+        header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: #333;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5%; 
+    height: 4rem; 
+}
+
+header .logo {
+    font-size: 1.5rem; 
+    font-weight: bolder;
+    text-transform: uppercase;
+    color: var(--orange);
+    text-decoration: none;
+}
+
+header .navbar a {
+    font-size: 1.4rem; 
+    margin: 0 0.5rem; 
+    color: #fff;
+    padding-right: 4.5rem;
+}
+
+
+        .heading {
+    text-align: center;
+    padding: 2.5rem 0;
+}
+
+.heading span {
+    font-size: 2.5rem;      
+    background: rgba(255, 165, 0, 0.2);
+    color: var(--orange);
+    border-radius: 0.5rem;
+    padding: 2rem 1rem;
+}
+
+.heading span.space {
+    background: none;
+}
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #fff;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.5rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+            font-size: 1rem;
+        }
+
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid #444;
+        }
+
+        .table th {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .table td {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .card {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #007bff;
+            border-radius: 8px 8px 0 0;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .btn {
+    display: inline-block;
+    background: var(--orange);
+    color: #fff;
+    padding: 0.5rem 1.5rem; /* Adjusted padding */
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem; /* Adjusted font size */
+    border-radius: 0.5rem;
+    text-align: center;
+}
+
+.btn:hover {
+    background: rgba(255, 165, 0, 0.8);
+}
+
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+ 
+        .navbar a:hover {
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .heading {
+                font-size: 2rem;
+            }
+
+            .form-control {
+                font-size: 0.9rem;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .heading {
+                font-size: 1.5rem;
+            }
+
+            .table th,
+            .table td {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+
+            .btn {
+                font-size: 0.8rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .navbar {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- header section-->
+    <header>
+        <a href="#" class="logo"><span>Voyage Vistas</span></a>
+
+        <nav class="navbar">
+            <a href="/#home">Home</a>
+            <a href="/logout" class="fas fa-sign-out-alt" style="font-size: 2em; color: aliceblue;"></a>
+
+        </nav>
+
+
+    </header>
+    
+    <div class="container">
+        <h1 class="heading">
+            <span>a</span>
+            <span>d</span>
+            <span>m</span>
+            <span>i</span>
+            <span>n</span>
+            <span class="space"></span>
+            <span>m</span>
+            <span>a</span>
+            <span>n</span>
+            <span>a</span>
+            <span>g</span>
+            <span>e</span>
+            <span>m</span>
+            <span>e</span>
+            <span>n</span>
+            <span>t</span>
+        </h1>
+        {% if error_message %}
+        <div class="alert alert-danger" role="alert">
+            {{ error_message }}
+        </div>
+        {% endif %}
+        {% if success_message %}
+        <div class="alert alert-success" role="alert">
+            {{ success_message }}
+        </div>
+        {% endif %}
+        <center>
+
+            <div class="container">
+                <div class="col">
+                    <div class="card">
+                        <div class="card-header">
+                            Add New Admin
+                        </div>
+                        <div class="card-body">
+                            <form method="post" action="/admins/register">
+                                <div class="form-group">
+                                    <label for="username">Username</label>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Enter username" required pattern="^[a-zA-Z0-9_.-]{3,15}$" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%^&+=]).{8,}$" required>
+                                </div>
+                                <button type="submit" class="btn">Register</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </center>
+
+</body>
+</html>
