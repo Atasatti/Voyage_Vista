@@ -404,7 +404,7 @@ async def delete_admin(request: Request, user_id: str, db=Depends(get_db), user1
         
         # Delete the user
         await db.admins.delete_one({"_id": ObjectId(user_id)})    
-        success_message = f"User with Username {user["username"]} deleted successfully"   
+        success_message = f'User with Username {user["username"]} deleted successfully'  
 
         # Fetch all users from the database    
         users = await db.admins.find().to_list(length=None)
