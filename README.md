@@ -5,7 +5,7 @@ Create Environment:
     
 Install Related Libraries in that environment:
     pip install fastapi motor jinja2 uvicorn itsdangerous
-
+pip install python-dotenv fastapi motor jinja2 uvicorn itsdangerous python-multipart
 Activate the evironment:
     env\Scripts\activate
 

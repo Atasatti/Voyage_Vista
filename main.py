@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, HTTPException, status, Depends, Request, Form
 from routes import admins_router, users_router
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -13,6 +14,11 @@ from dependencies import get_current_user
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+import os
+from dotenv import load_dotenv
+from urllib.parse import quote_plus
+
+load_dotenv()
 
 # Secret key for session management
 SECRET_KEY = "sdsfe45456@21!!"
@@ -38,7 +44,21 @@ app.include_router(admins_router.router, tags= ["Admin Router"] , prefix="/admin
 # Setup Jinja2Templates for HTML rendering
 templates = Jinja2Templates(directory="templates")
 # MongoDB setup
-client = AsyncIOMotorClient("mongodb://localhost:27017")
+# Get MongoDB credentials from environment variables
+def get_env_or_fail(var):
+    value = os.getenv(var)
+    if value is None:
+        raise RuntimeError(f"Environment variable {var} is not set!")
+    return value
+
+username = quote_plus(get_env_or_fail("MONGODB_USERNAME"))
+password = quote_plus(get_env_or_fail("MONGODB_PASSWORD"))
+cluster = get_env_or_fail("MONGODB_CLUSTER")
+database = os.getenv("MONGODB_DATABASE")
+
+# Construct MongoDB connection string
+MONGODB_URL = f"mongodb+srv://{username}:{password}@{cluster}/?retryWrites=true&w=majority"
+client = AsyncIOMotorClient(MONGODB_URL)
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
